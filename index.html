@@ -1,0 +1,274 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>LedgerParity — documentation</title>
+  <meta name="description" content="LedgerParity documentation: read-only reconciliation of application payment records against ordinary classic Stellar payment operations.">
+  <link rel="icon" type="image/png" href="assets/favicon-32.png">
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <a href="#top"><img src="assets/lockup.png" alt="LedgerParity"></a>
+    <nav aria-label="Sections">
+      <a href="#overview">Overview</a>
+      <a href="#repositories">Repositories</a>
+      <a href="#concepts">Concepts</a>
+      <a href="#quickstart">Quick start</a>
+      <a href="#evidence">Evidence</a>
+      <a href="#security">Security</a>
+      <a href="#roadmap">Roadmap</a>
+      <a href="#governance">Governance</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero">
+    <img class="banner" src="assets/banner.png" alt="LedgerParity — your application ledger against the Stellar chain, brought to parity">
+    <h1>Ledger<span class="accent">Parity</span></h1>
+    <p class="lead">Read-only reconciliation for Stellar payment operators: bring your application payment
+      ledger into parity with ordinary classic Stellar payment operations — exactly, reproducibly, without
+      fabricating missing evidence.</p>
+    <span class="tag">Developer preview — no adoption or production-readiness claim</span>
+  </section>
+
+  <section id="overview">
+    <h2>Overview</h2>
+    <p>Stellar settles payments on-chain; operators keep their own payment records. When a settlement
+      notification is missed, an amount is off by a stroop, or a record is duplicated, someone must compare an
+      application export against the chain by hand. LedgerParity makes that comparison exact, auditable, and
+      replayable.</p>
+    <h3>What parity means here</h3>
+    <ul>
+      <li>A match requires the <b>same network passphrase, sender, recipient, asset type/code/issuer, amount,
+        and time window</b>. Nothing is rounded or aliased.</li>
+      <li>Observations without proof of coverage are <b>reported, never silently assumed</b>; the unproven stays
+        <code>UNKNOWN</code>.</li>
+      <li>Every decision, coverage limitation, and dependency pin is documented in each repository's
+        <code>DECISIONS.md</code>, <code>PROJECT_HANDOFF.md</code>, and <code>docs/backlog.md</code>.</li>
+      <li>LedgerParity <b>never signs, funds, or moves funds</b>, and it never claims validation it has not
+        performed.</li>
+    </ul>
+    <div class="note">
+      <p><b>Status.</b> These are functional, tested libraries and a runnable CLI. They are not established
+        operator tooling: there is no demonstrated operator adoption, no deployed SDP validation, and no
+        production-readiness claim. Drips or partnership admission is explicitly not claimed.</p>
+    </div>
+  </section>
+
+  <section id="repositories">
+    <h2>Repositories</h2>
+    <div class="grid">
+      <div class="card">
+        <h3>ledger-parity-core</h3>
+        <p>The matching engine and read-only Horizon ingestion. Normalizes and validates expectations; fetches
+          ordinary classic <code>payment</code> operations within provider-declared retention; classifies
+          matches, discrepancies, and unknowns.</p>
+        <p class="meta"><b>Go library</b> · Go 1.22.2+ · no external runtime dependencies · <a href="https://github.com/LedgerParity/ledger-parity-core">github ↗</a></p>
+      </div>
+      <div class="card">
+        <h3>ledger-parity-connectors</h3>
+        <p>Validated import of application exports: canonical JSON/CSV plus a release-pinned SDP 7.0.0 payment
+          CSV adapter with explicit sender/network/settlement scope. Strict validation, no invented fallbacks.</p>
+        <p class="meta"><b>Go library</b> · synthetic contract tests · <a href="https://github.com/LedgerParity/ledger-parity-connectors">github ↗</a></p>
+      </div>
+      <div class="card">
+        <h3>ledger-parity-cli</h3>
+        <p>Runnable operator workflow: configure, reconcile, capture replayable evidence, and verify
+          byte-identical offline replays. Includes the release-scoped SDP example and a deterministic demo.</p>
+        <p class="meta"><b>Command-line tool</b> · v0.3.0-preview · exit codes 0/1/2/3 · <a href="https://github.com/LedgerParity/ledger-parity-cli">github ↗</a></p>
+      </div>
+      <div class="card">
+        <h3>Brand &amp; docs</h3>
+        <p>Organization files, brand assets, and this documentation. See
+          <code>docs/SDP.md</code>, <code>docs/VERIFICATION.md</code>, <code>docs/SDP_EVIDENCE.md</code>, and the
+          audit <code>docs/GAP_ASSESSMENT.md</code> for detailed evidence.</p>
+        <p class="meta"><b>Static site</b> · no build step · brand kit in <code>brand/</code></p>
+      </div>
+    </div>
+  </section>
+
+  <section id="concepts">
+    <h2>Concepts</h2>
+
+    <h3>Exact identity</h3>
+    <p>A settlement matches only when all identity dimensions agree: network passphrase, sender, recipient,
+      asset type, asset code and issuer (case-sensitive for credit assets), and the time window. An
+      <code>operation_id</code> disambiguates multiple payments inside a single transaction. A token contract
+      address is never an issuer alias.</p>
+
+    <h3>Amounts</h3>
+    <p>Values are exact stroop integers within the signed int64 range, including at the limit. Inputs with
+      excess precision fail validation; amounts are never rounded and no monetary tolerance is applied.</p>
+
+    <h3>Time windows</h3>
+    <p>A record supplies <b>exactly one</b> representation: a legacy <code>timestamp</code> or an explicit
+      <code>settlement_start</code>/<code>settlement_end</code> interval. Intervals are closed and are not
+      widened by time tolerance; they must fit the reconciliation window. A partially intersecting interval is
+      reported, never silently filtered. <code>business_reference</code> is separate from
+      <code>reference_id</code>, which means the transaction hash only — never a memo.</p>
+
+    <h3>Coverage and UNKNOWN</h3>
+    <p>Coverage is provider evidence, not a cryptographic history proof. A complete scan means provider-declared
+      retained history encloses the requested window, pages were traversed, and the retention boundary stayed
+      stable. Incomplete coverage, ambiguous multiple candidates, competing claims, and malformed observations
+      all remain <code>UNKNOWN</code>. Unknowns are reported separately and are <b>not</b> counted as financial
+      discrepancies.</p>
+    <p>The legacy slice-only <code>FetchOnChainPayments</code> wrapper discards coverage and is unsuitable for
+      definitive absence conclusions.</p>
+
+    <h3>Horizon ingestion</h3>
+    <p>The ingestor traverses descending numeric paging tokens against the configured endpoint (no arbitrary
+      redirects or next-links), verifies the network passphrase before and after the scan, enforces
+      request/response size and retry bounds, stops on failure with no successful ingestion result, and never
+      lets an error become an empty scan. Durable checkpoints and crash-restart resume are not implemented;
+      scans restart intentionally.</p>
+
+    <h3>RPC corpus (developer tool)</h3>
+    <p>A separate Node developer tool (<code>tools/rpc-corpus</code>) performs opt-in public-testnet reads only:
+      <code>getNetwork</code>/<code>getTransaction</code> JSON-RPC and Horizon GET. It never signs, funds, or
+      simulates. It captures ordinary-payment transactions and verifies that RPC results agree with Horizon
+      operation semantics. Runtime ingestion in the Go modules remains Horizon-only.</p>
+  </section>
+
+  <section id="quickstart">
+    <h2>Quick start</h2>
+
+    <h3>Requirements</h3>
+    <p>Go 1.22.2 or newer (a currently supported Go release is preferred). The RPC corpus uses Node 22+ with the
+      pinned <code>@stellar/stellar-sdk</code> (<code>npm ci</code>).</p>
+
+    <h3>Run the tests from any checkout</h3>
+    <pre><code>go test ./...
+go vet ./...
+go build ./...</code></pre>
+
+    <h3>Library flow (core)</h3>
+    <pre><code>h := ingest.NewHorizonIngestor("https://horizon-testnet.stellar.org")
+h.Network = "Test SDF Network ; September 2015"   // exact passphrase
+
+res, err := h.Fetch(ctx, accounts, start.Add(-tol), end.Add(tol))
+// pass res.Coverage into ReconcileOptions; set Coverage.InternalComplete
+// only if the export covers every relevant ordinary payment.
+
+opts := engine.ReconcileOptions{TimeframeToleranceSec: tol, Coverage: res.Coverage}
+report := engine.NewReconciler(opts).Reconcile(
+    app, start, end, internalPayments, res.Payments)</code></pre>
+
+    <h3>Connectors (import exports)</h3>
+    <pre><code>ips, err := sdp.Parse(csvReader, network, "deployment-name", sdp.Scope{
+    Release: sdp.Release, Sender: "GB…", Assertion: "…",
+    SettlementStart: start, SettlementEnd: end,
+})</code></pre>
+
+    <h3>CLI — offline SDP example</h3>
+    <pre><code>ledger-parity --config examples/sdp/config.json \
+  --bundle evidence.json --out report.json
+# exit 3: 1 match, 1 discrepancy, 1 unresolved (fixture)
+
+ledger-parity --replay evidence.json --out replayed.json
+# byte-identical report; exit 3</code></pre>
+
+    <h3>Exit codes</h3>
+    <table>
+      <thead><tr><th>Code</th><th>Meaning</th></tr></thead>
+      <tbody>
+        <tr><td><b>0</b></td><td>Complete match — no discrepancies, no unknowns.</td></tr>
+        <tr><td><b>1</b></td><td>Runtime or configuration error — nothing produced.</td></tr>
+        <tr><td><b>2</b></td><td>Financial discrepancies found.</td></tr>
+        <tr><td><b>3</b></td><td>Unresolved evidence present (<code>UNKNOWN</code>s are never counted as discrepancies).</td></tr>
+      </tbody>
+    </table>
+
+    <div class="note">
+      <p><b>Example scope discipline.</b> The SDP workflow requires an independently known sender, network, and
+        closed settlement interval declared by the caller. CSV creation/update time is never settlement time;
+        the caller's interval is an assertion, not source-certified execution time.</p>
+    </div>
+  </section>
+
+  <section id="evidence">
+    <h2>Evidence and replay</h2>
+    <p>The CLI can capture an <b>evidence bundle</b> (<code>ledgerparity-evidence/v1</code>) alongside a report:
+      the scoped inputs, coverage metadata, tool/build hashes, and the produced report. This makes an operator
+      finding inspectable and reproducible without the original network or export host.</p>
+    <ul>
+      <li>Bundles are written to <b>new files only</b> (<code>O_EXCL</code>, mode 0600); existing evidence is
+        never overwritten, and a report must not overwrite an input or the evidence file.</li>
+      <li>Replay re-seals the document and rejects it if the SHA-256 integrity check fails — tampering is
+        detected, and engine/evidence mismatches abort the replay.</li>
+      <li>A replayed report is byte-identical to the recorded report (including its generated-at time), because
+        the report is re-derived and compared with <code>reflect.DeepEqual</code>.</li>
+      <li>Observations remain what the provider returned; offline fixtures are asserted data, not on-chain
+        verification.</li>
+    </ul>
+    <div class="note">
+      <p><b>Evidence limits.</b> Coverage trusts the configured provider and does not prove cryptographic or
+        continuous history. SDP adapters are tested against the pinned upstream contract plus synthetic
+        exports, not a deployed SDP installation. The RPC corpus contains one captured public-testnet fixture
+        plus synthetic mutations. Nothing here is fabricated to look validated.</p>
+    </div>
+  </section>
+
+  <section id="security">
+    <h2>Security and trust</h2>
+    <ul>
+      <li>Read-only by design: LedgerParity never needs secret keys and never signs or submits transactions.</li>
+      <li>Treat exports and reports as sensitive — they contain account identifiers, amounts, and application
+        references; keep them out of public commits. JSON files are created with private permissions where the
+        OS supports it; Windows ACLs and pre-existing files need operator management.</li>
+      <li>Horizon is a trusted data provider, not a locally verified ledger proof. Configure an endpoint you
+        trust; do not expose the CLI as a service accepting arbitrary URLs or files.</li>
+      <li>Exact account equality does not validate StrKey checksums; muxed identities are preserved with
+        conservative base-account coverage limitations.</li>
+      <li>For a sensitive bug, use each repository's GitHub Security → <i>Report a vulnerability</i> if
+        available; otherwise open a minimal issue without disclosing secrets, customer data, or exploit
+        details. Per-repository guidance is in each <code>SECURITY.md</code>.</li>
+    </ul>
+  </section>
+
+  <section id="roadmap">
+    <h2>Roadmap and status</h2>
+    <table>
+      <thead><tr><th>Area</th><th>Status</th></tr></thead>
+      <tbody>
+        <tr><td>Exact classic-payment matching (amounts, identity, intervals, UNKNOWN semantics)</td><td><b>Implemented</b> and tested, including negative and edge cases.</td></tr>
+        <tr><td>Replayable SDP evidence workflow and byte-identical replays</td><td><b>Implemented</b> with synthetic contract tests.</td></tr>
+        <tr><td>Read-only Horizon ingestion with retention/freshness bounds</td><td><b>Implemented</b>; RPC migration remains unproven (one captured fixture).</td></tr>
+        <tr><td>Real operator validation</td><td><b>Open</b> — needs an independently produced sanitized operator export and a known discrepancy.</td></tr>
+        <tr><td>Credit-asset / fee-bump RPC fixtures</td><td><b>Open</b> — needs real captured transactions, per the no-fabrication rule.</td></tr>
+        <tr><td>Durable checkpoints and crash/restart resume</td><td><b>Open</b> — separate design required before advertising.</td></tr>
+        <tr><td>Path payments, Soroban/RPC runtime ingestion, signing or restitution</td><td><b>Out of scope</b> for the preview.</td></tr>
+      </tbody>
+    </table>
+    <p class="small">See <code>ROADMAP.md</code> and <code>docs/backlog.md</code> in each repository for the
+      acceptance criteria behind these rows. Current check results live in <code>PROJECT_HANDOFF.md</code>,
+      never as future milestone promises.</p>
+  </section>
+
+  <section id="governance">
+    <h2>Governance and community</h2>
+    <p>LedgerParity is maintained as an honest, evidence-first preview. Decisions are recorded in each
+      repository's <code>DECISIONS.md</code>; corrections are added rather than history being rewritten.</p>
+    <ul>
+      <li><a href="https://github.com/LedgerParity/.github">Organization files</a> — code of conduct, governance, license.</li>
+      <li>Per-repository <code>CONTRIBUTING.md</code>, <code>SECURITY.md</code>, <code>DECISIONS.md</code>, and
+        <code>docs/backlog.md</code> for contributor tasks.</li>
+      <li>All repositories are MIT licensed; brand usage and honesty rules remain applicable regardless of
+        license terms.</li>
+      <li>The brand is original and deliberately distinct from the Stellar Development Foundation's brand; no
+        affiliation is claimed.</li>
+    </ul>
+  </section>
+</main>
+
+<footer>
+  <p>LedgerParity · MIT licensed · <a href="https://github.com/LedgerParity">github.com/LedgerParity</a></p>
+</footer>
+
+</body>
+</html>
