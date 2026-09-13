@@ -37,6 +37,8 @@
   </section>
 
   <section id="overview">
+    <p><a href="https://github.com/LedgerParity/ledger-parity-cli/releases/tag/v0.3.1-preview">Download v0.3.1-preview for Windows, Linux or macOS</a> with checksums, examples and the offline dashboard.</p>
+    <p>The optional <a href="https://github.com/LedgerParity/-ledger-parity-contract/blob/main/TESTNET.md">report hash contract has synthetic Protocol 28 testnet validation</a>, including authorized registration, read-back, early renewal and measured fees. It records a hash assertion; it does not prove reconciliation correctness. Archived restoration and real operator validation remain outstanding.</p>
     <h2>Overview</h2>
     <p>Stellar settles payments on-chain; operators keep their own payment records. When a settlement
       notification is missed, an amount is off by a stroop, or a record is duplicated, someone must compare an
@@ -50,7 +52,7 @@
         <code>UNKNOWN</code>.</li>
       <li>Every decision, coverage limitation, and dependency pin is documented in each repository's
         <code>DECISIONS.md</code>, <code>PROJECT_HANDOFF.md</code>, and <code>docs/backlog.md</code>.</li>
-      <li>LedgerParity <b>never signs, funds, or moves funds</b>, and it never claims validation it has not
+      <li>The reconciliation CLI <b>never signs, funds, or moves funds</b>, and it never claims validation it has not
         performed.</li>
     </ul>
     <div class="note">
@@ -80,7 +82,7 @@
         <h3>ledger-parity-cli</h3>
         <p>Runnable operator workflow: configure, reconcile, capture replayable evidence, and verify
           byte-identical offline replays. Includes the release-scoped SDP example and a deterministic demo.</p>
-        <p class="meta"><b>Command-line tool</b> · v0.3.0-preview · exit codes 0/1/2/3 · <a href="https://github.com/LedgerParity/ledger-parity-cli">github ↗</a></p>
+        <p class="meta"><b>Command-line tool</b> · v0.3.1-preview · exit codes 0/1/2/3 · <a href="https://github.com/LedgerParity/ledger-parity-cli">github ↗</a></p>
       </div>
       <div class="card">
         <h3>Brand &amp; docs</h3>
@@ -217,7 +219,7 @@ ledger-parity --replay evidence.json --out replayed.json
   <section id="security">
     <h2>Security and trust</h2>
     <ul>
-      <li>Read-only by design: LedgerParity never needs secret keys and never signs or submits transactions.</li>
+      <li>The reconciliation CLI never needs secret keys and never signs or submits transactions. The optional contract has separate signed testnet validation tooling.</li>
       <li>Treat exports and reports as sensitive — they contain account identifiers, amounts, and application
         references; keep them out of public commits. JSON files are created with private permissions where the
         OS supports it; Windows ACLs and pre-existing files need operator management.</li>
