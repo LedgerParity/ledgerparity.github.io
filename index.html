@@ -3,43 +3,52 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>LedgerParity — documentation</title>
+  <title>LedgerParity — clarity for every Stellar payment</title>
   <meta name="description" content="LedgerParity documentation: read-only reconciliation of application payment records against ordinary classic Stellar payment operations.">
   <link rel="icon" type="image/png" href="assets/favicon-32.png">
   <link rel="stylesheet" href="assets/style.css">
 </head>
 <body>
+<a class="skip-link" href="#top">Skip to content</a>
 
 <header class="topbar">
   <div class="topbar-inner">
     <a href="#top"><img src="assets/lockup.png" alt="LedgerParity"></a>
-    <nav aria-label="Sections">
+    <nav aria-label="Main navigation">
       <a href="#overview">Overview</a>
-      <a href="#repositories">Repositories</a>
-      <a href="#concepts">Concepts</a>
       <a href="#quickstart">Quick start</a>
       <a href="#evidence">Evidence</a>
-      <a href="#security">Security</a>
-      <a href="#roadmap">Roadmap</a>
-      <a href="#governance">Governance</a>
+      <a href="https://github.com/LedgerParity">GitHub ↗</a>
     </nav>
   </div>
 </header>
 
-<main id="top">
-  <section class="hero">
-    <img class="banner" src="assets/banner.png" alt="LedgerParity — your application ledger against the Stellar chain, brought to parity">
-    <h1>Ledger<span class="accent">Parity</span></h1>
-    <p class="lead">Read-only reconciliation for Stellar payment operators: bring your application payment
-      ledger into parity with ordinary classic Stellar payment operations — exactly, reproducibly, without
-      fabricating missing evidence.</p>
-    <span class="tag">Developer preview — no adoption or production-readiness claim</span>
+<main id="top" tabindex="-1">
+  <section class="hero" aria-labelledby="hero-title">
+    <p class="eyebrow">STELLAR PAYMENT RECONCILIATION</p>
+    <h1 id="hero-title">Every payment.<br><span class="accent">A clearer picture.</span></h1>
+    <p class="lead">Compare your application ledger with Stellar payments.<br class="desktop-break"> Find discrepancies. Keep the evidence. Replay the result.</p>
+    <div class="hero-actions">
+      <a class="button primary" href="https://github.com/LedgerParity/ledger-parity-cli/releases/tag/v0.3.2-preview">Download the preview <span aria-hidden="true">↓</span></a>
+      <a class="button secondary" href="#quickstart">Explore the quick start <span aria-hidden="true">→</span></a>
+    </div>
+    <p class="release-caption">v0.3.2-preview · Windows, Linux &amp; macOS · MIT licensed</p>
+    <div class="workflow" aria-label="Reconciliation workflow">
+      <div><span class="step">01 / INPUT</span><h3>Your payment records</h3><p>Canonical JSON, CSV, or scoped SDP exports.</p></div>
+      <div><span class="step">02 / COMPARE</span><h3>Exact Stellar matching</h3><p>Identity, asset, amount, and settlement window.</p></div>
+      <div><span class="step">03 / UNDERSTAND</span><h3>A replayable report</h3><p>Matches, discrepancies, and unresolved evidence.</p></div>
+    </div>
+    <p class="preview-label">Developer preview · ordinary classic payments · read-only CLI</p>
   </section>
 
+  <nav class="contents" aria-label="Documentation sections">
+    <a href="#repositories">Tools</a><a href="#concepts">Concepts</a><a href="#security">Security</a><a href="#roadmap">Roadmap</a><a href="#governance">Community</a>
+  </nav>
   <section id="overview">
-    <p><a href="https://github.com/LedgerParity/ledger-parity-cli/releases/tag/v0.3.2-preview">Download v0.3.2-preview for Windows, Linux or macOS</a> with checksums, examples and the offline dashboard.</p>
-    <p>The optional <a href="https://github.com/LedgerParity/-ledger-parity-contract/blob/main/TESTNET.md">report hash contract has synthetic Protocol 28 testnet validation</a>, including authorized registration, read-back, early renewal and measured fees. It records a hash assertion; it does not prove reconciliation correctness. Archived restoration and real operator validation remain outstanding.</p>
-    <h2>Overview</h2>
+
+
+    <p class="eyebrow">BUILT FOR THE MOMENT THINGS DON’T ADD UP</p>
+    <h2>From payment records to clarity.</h2>
     <p>Stellar settles payments on-chain; operators keep their own payment records. When a settlement
       notification is missed, an amount is off by a stroop, or a record is duplicated, someone must compare an
       application export against the chain by hand. LedgerParity makes that comparison exact, auditable, and
@@ -63,23 +72,24 @@
   </section>
 
   <section id="repositories">
-    <h2>Repositories</h2>
+    <p class="eyebrow">OPEN SOURCE, THROUGHOUT</p>
+    <h2>One workflow. Focused tools.</h2>
     <div class="grid">
       <div class="card">
-        <h3>ledger-parity-core</h3>
+        <h3>Matching engine</h3>
         <p>The matching engine and read-only Horizon ingestion. Normalizes and validates expectations; fetches
           ordinary classic <code>payment</code> operations within provider-declared retention; classifies
           matches, discrepancies, and unknowns.</p>
         <p class="meta"><b>Go library</b> · Go 1.22.2+ · no external runtime dependencies · <a href="https://github.com/LedgerParity/ledger-parity-core">github ↗</a></p>
       </div>
       <div class="card">
-        <h3>ledger-parity-connectors</h3>
+        <h3>Export connectors</h3>
         <p>Validated import of application exports: canonical JSON/CSV plus a release-pinned SDP 7.0.0 payment
           CSV adapter with explicit sender/network/settlement scope. Strict validation, no invented fallbacks.</p>
         <p class="meta"><b>Go library</b> · synthetic contract tests · <a href="https://github.com/LedgerParity/ledger-parity-connectors">github ↗</a></p>
       </div>
       <div class="card">
-        <h3>ledger-parity-cli</h3>
+        <h3>Command-line workspace</h3>
         <p>Runnable operator workflow: configure, reconcile, capture replayable evidence, and verify
           byte-identical offline replays. Includes the release-scoped SDP example and a deterministic demo.</p>
         <p class="meta"><b>Command-line tool</b> · v0.3.2-preview · exit codes 0/1/2/3 · <a href="https://github.com/LedgerParity/ledger-parity-cli">github ↗</a></p>
@@ -97,24 +107,27 @@
   <section id="concepts">
     <h2>Concepts</h2>
 
-    <h3>Exact identity</h3>
+    <details><summary>Exact identity</summary><div class="detail-body">
     <p>A settlement matches only when all identity dimensions agree: network passphrase, sender, recipient,
       asset type, asset code and issuer (case-sensitive for credit assets), and the time window. An
       <code>operation_id</code> disambiguates multiple payments inside a single transaction. A token contract
       address is never an issuer alias.</p>
 
-    <h3>Amounts</h3>
+</div></details>
+    <details><summary>Amounts</summary><div class="detail-body">
     <p>Values are exact stroop integers within the signed int64 range, including at the limit. Inputs with
       excess precision fail validation; amounts are never rounded and no monetary tolerance is applied.</p>
 
-    <h3>Time windows</h3>
+</div></details>
+    <details><summary>Time windows</summary><div class="detail-body">
     <p>A record supplies <b>exactly one</b> representation: a legacy <code>timestamp</code> or an explicit
       <code>settlement_start</code>/<code>settlement_end</code> interval. Intervals are closed and are not
       widened by time tolerance; they must fit the reconciliation window. A partially intersecting interval is
       reported, never silently filtered. <code>business_reference</code> is separate from
       <code>reference_id</code>, which means the transaction hash only — never a memo.</p>
 
-    <h3>Coverage and UNKNOWN</h3>
+</div></details>
+    <details><summary>Coverage and UNKNOWN</summary><div class="detail-body">
     <p>Coverage is provider evidence, not a cryptographic history proof. A complete scan means provider-declared
       retained history encloses the requested window, pages were traversed, and the retention boundary stayed
       stable. Incomplete coverage, ambiguous multiple candidates, competing claims, and malformed observations
@@ -123,52 +136,30 @@
     <p>The legacy slice-only <code>FetchOnChainPayments</code> wrapper discards coverage and is unsuitable for
       definitive absence conclusions.</p>
 
-    <h3>Horizon ingestion</h3>
+</div></details>
+    <details><summary>Horizon ingestion</summary><div class="detail-body">
     <p>The ingestor traverses descending numeric paging tokens against the configured endpoint (no arbitrary
       redirects or next-links), verifies the network passphrase before and after the scan, enforces
       request/response size and retry bounds, stops on failure with no successful ingestion result, and never
       lets an error become an empty scan. Durable checkpoints and crash-restart resume are not implemented;
       scans restart intentionally.</p>
 
-    <h3>RPC corpus (developer tool)</h3>
+</div></details>
+    <details><summary>RPC corpus (developer tool)</summary><div class="detail-body">
     <p>A separate Node developer tool (<code>tools/rpc-corpus</code>) performs opt-in public-testnet reads only:
       <code>getNetwork</code>/<code>getTransaction</code> JSON-RPC and Horizon GET. It never signs, funds, or
       simulates. It captures ordinary-payment transactions and verifies that RPC results agree with Horizon
       operation semantics. Runtime ingestion in the Go modules remains Horizon-only.</p>
+</div></details>
   </section>
 
   <section id="quickstart">
-    <h2>Quick start</h2>
-
-    <h3>Requirements</h3>
-    <p>Go 1.22.2 or newer (a currently supported Go release is preferred). The RPC corpus uses Node 22+ with the
-      pinned <code>@stellar/stellar-sdk</code> (<code>npm ci</code>).</p>
-
-    <h3>Run the tests from any checkout</h3>
-    <pre><code>go test ./...
-go vet ./...
-go build ./...</code></pre>
-
-    <h3>Library flow (core)</h3>
-    <pre><code>h := ingest.NewHorizonIngestor("https://horizon-testnet.stellar.org")
-h.Network = "Test SDF Network ; September 2015"   // exact passphrase
-
-res, err := h.Fetch(ctx, accounts, start.Add(-tol), end.Add(tol))
-// pass res.Coverage into ReconcileOptions; set Coverage.InternalComplete
-// only if the export covers every relevant ordinary payment.
-
-opts := engine.ReconcileOptions{TimeframeToleranceSec: tol, Coverage: res.Coverage}
-report := engine.NewReconciler(opts).Reconcile(
-    app, start, end, internalPayments, res.Payments)</code></pre>
-
-    <h3>Connectors (import exports)</h3>
-    <pre><code>ips, err := sdp.Parse(csvReader, network, "deployment-name", sdp.Scope{
-    Release: sdp.Release, Sender: "GB…", Assertion: "…",
-    SettlementStart: start, SettlementEnd: end,
-})</code></pre>
+    <p class="eyebrow">TRY THE WORKFLOW</p>
+    <h2>Your first replay, in minutes.</h2>
+    <p>Download and extract the preview for your platform. Open a terminal in the extracted folder and run this synthetic example. On Windows PowerShell, use <code>.\ledger-parity.exe</code>; on macOS and Linux, use <code>./ledger-parity</code>.</p>
 
     <h3>CLI — offline SDP example</h3>
-    <pre><code>ledger-parity --config examples/sdp/config.json \
+    <pre tabindex="0" aria-label="Code example"><code>ledger-parity --config examples/sdp/config.json \
   --bundle evidence.json --out report.json
 # exit 3: 1 match, 1 discrepancy, 1 unresolved (fixture)
 
@@ -177,7 +168,7 @@ ledger-parity --replay evidence.json --out replayed.json
 
     <h3>Exit codes</h3>
     <table>
-      <thead><tr><th>Code</th><th>Meaning</th></tr></thead>
+      <thead><tr><th scope="col">Code</th><th scope="col">Meaning</th></tr></thead>
       <tbody>
         <tr><td><b>0</b></td><td>Complete match — no discrepancies, no unknowns.</td></tr>
         <tr><td><b>1</b></td><td>Runtime or configuration error — nothing produced.</td></tr>
@@ -191,10 +182,40 @@ ledger-parity --replay evidence.json --out replayed.json
         closed settlement interval declared by the caller. CSV creation/update time is never settlement time;
         the caller's interval is an assertion, not source-certified execution time.</p>
     </div>
+
+    <details><summary>Build from source &amp; library examples</summary><div class="detail-body">    <h3>Requirements</h3>
+    <p>Go 1.22.2 or newer (a currently supported Go release is preferred). The RPC corpus uses Node 22+ with the
+      pinned <code>@stellar/stellar-sdk</code> (<code>npm ci</code>).</p>
+
+    <h3>Run the tests from any checkout</h3>
+    <pre tabindex="0" aria-label="Code example"><code>go test ./...
+go vet ./...
+go build ./...</code></pre>
+
+    <h3>Library flow (core)</h3>
+    <pre tabindex="0" aria-label="Code example"><code>h := ingest.NewHorizonIngestor("https://horizon-testnet.stellar.org")
+h.Network = "Test SDF Network ; September 2015"   // exact passphrase
+
+res, err := h.Fetch(ctx, accounts, start.Add(-tol), end.Add(tol))
+// pass res.Coverage into ReconcileOptions; set Coverage.InternalComplete
+// only if the export covers every relevant ordinary payment.
+
+opts := engine.ReconcileOptions{TimeframeToleranceSec: tol, Coverage: res.Coverage}
+report := engine.NewReconciler(opts).Reconcile(
+    app, start, end, internalPayments, res.Payments)</code></pre>
+
+    <h3>Connectors (import exports)</h3>
+    <pre tabindex="0" aria-label="Code example"><code>ips, err := sdp.Parse(csvReader, network, "deployment-name", sdp.Scope{
+    Release: sdp.Release, Sender: "GB…", Assertion: "…",
+    SettlementStart: start, SettlementEnd: end,
+})</code></pre>
+
+</div></details>
   </section>
 
   <section id="evidence">
-    <h2>Evidence and replay</h2>
+    <h2>Evidence you can revisit.</h2>
+    <p>The optional <a href="https://github.com/LedgerParity/-ledger-parity-contract/blob/main/TESTNET.md">report hash contract has synthetic Protocol 28 testnet validation</a>, including authorized registration, read-back, early renewal and measured fees. It records a hash assertion; it does not prove reconciliation correctness. Archived restoration and real operator validation remain outstanding.</p>
     <p>The CLI can capture an <b>evidence bundle</b> (<code>ledgerparity-evidence/v1</code>) alongside a report:
       the scoped inputs, coverage metadata, tool/build hashes, and the produced report. This makes an operator
       finding inspectable and reproducible without the original network or export host.</p>
@@ -218,6 +239,7 @@ ledger-parity --replay evidence.json --out replayed.json
 
   <section id="security">
     <h2>Security and trust</h2>
+    <details><summary>Read security and trust guidance</summary><div class="detail-body">
     <ul>
       <li>The reconciliation CLI never needs secret keys and never signs or submits transactions. The optional contract has separate signed testnet validation tooling.</li>
       <li>Treat exports and reports as sensitive — they contain account identifiers, amounts, and application
@@ -231,12 +253,13 @@ ledger-parity --replay evidence.json --out replayed.json
         available; otherwise open a minimal issue without disclosing secrets, customer data, or exploit
         details. Per-repository guidance is in each <code>SECURITY.md</code>.</li>
     </ul>
+</div></details>
   </section>
 
   <section id="roadmap">
     <h2>Roadmap and status</h2>
     <table>
-      <thead><tr><th>Area</th><th>Status</th></tr></thead>
+      <thead><tr><th scope="col">Area</th><th scope="col">Status</th></tr></thead>
       <tbody>
         <tr><td>Exact classic-payment matching (amounts, identity, intervals, UNKNOWN semantics)</td><td><b>Implemented</b> and tested, including negative and edge cases.</td></tr>
         <tr><td>Replayable SDP evidence workflow and byte-identical replays</td><td><b>Implemented</b> with synthetic contract tests.</td></tr>
@@ -254,6 +277,7 @@ ledger-parity --replay evidence.json --out replayed.json
 
   <section id="governance">
     <h2>Governance and community</h2>
+    <details><summary>Read governance and community guidance</summary><div class="detail-body">
     <p>LedgerParity is maintained as an honest, evidence-first preview. Decisions are recorded in each
       repository's <code>DECISIONS.md</code>; corrections are added rather than history being rewritten.</p>
     <ul>
@@ -265,6 +289,7 @@ ledger-parity --replay evidence.json --out replayed.json
       <li>The brand is original and deliberately distinct from the Stellar Development Foundation's brand; no
         affiliation is claimed.</li>
     </ul>
+</div></details>
   </section>
 </main>
 

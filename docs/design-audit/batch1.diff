@@ -1,0 +1,261 @@
+﻿diff --git a/assets/style.css b/assets/style.css
+index c3c7a53..7ee034a 100644
+--- a/assets/style.css
++++ b/assets/style.css
+@@ -8,132 +8,79 @@
+   --text: #f3f1e7;
+   --slate: #9aa3c0;
+   --code-bg: #0d1126;
+-  --maxw: 1080px;
++  --maxw: 1120px;
++  --type-small: .875rem;
++  --type-body: 1rem;
++  --type-subhead: 1.25rem;
++  --type-section: 2rem;
++  --type-hero: 4rem;
+ }
+-
+ * { box-sizing: border-box; }
+-
+ html { scroll-behavior: smooth; }
+-
+-body {
+-  margin: 0;
+-  background: var(--ink);
+-  color: var(--text);
+-  font-family: "Space Grotesk", "Avenir Next", "Segoe UI", sans-serif;
+-  line-height: 1.65;
+-  font-size: 16px;
+-}
+-
+-a { color: var(--teal); text-decoration-thickness: 1px; text-underline-offset: 3px; }
++body { margin: 0; background: var(--ink); color: var(--text); font-family: "Avenir Next", "Segoe UI", sans-serif; font-size: var(--type-body); line-height: 1.5; }
++a { color: var(--teal); text-decoration-thickness: 1px; text-underline-offset: 4px; }
+ a:hover { color: var(--violet); }
+-
+-h1, h2, h3, h4 { line-height: 1.25; letter-spacing: -0.01em; }
+-h2 {
+-  font-size: 1.7rem;
+-  margin: 2.6rem 0 1rem;
+-  color: var(--text);
+-  border-bottom: 1px solid var(--line);
+-  padding-bottom: .4rem;
+-}
+-h3 { font-size: 1.15rem; margin: 1.6rem 0 .6rem; color: var(--teal); }
+-
+-p, ul, ol { color: var(--text); }
+-ul { padding-left: 1.3rem; }
+-li { margin: .35rem 0; }
+-
+-code, pre {
+-  font-family: "JetBrains Mono", "Cascadia Code", Consolas, monospace;
+-}
+-code {
+-  background: var(--code-bg);
+-  border: 1px solid var(--line);
+-  border-radius: 5px;
+-  padding: .1rem .35rem;
+-  font-size: .86em;
+-}
+-pre {
+-  background: var(--code-bg);
+-  border: 1px solid var(--line);
+-  border-radius: 10px;
+-  padding: 1rem 1.2rem;
+-  overflow-x: auto;
+-  line-height: 1.5;
+-  font-size: .86rem;
+-}
+-pre code { background: none; border: 0; padding: 0; }
+-
+-/* Top bar */
+-.topbar {
+-  position: sticky;
+-  top: 0;
+-  z-index: 10;
+-  background: rgba(11, 14, 30, .92);
+-  backdrop-filter: blur(8px);
+-  border-bottom: 1px solid var(--line);
+-}
+-.topbar-inner {
+-  max-width: var(--maxw);
+-  margin: 0 auto;
+-  padding: .7rem 1.5rem;
+-  display: flex;
+-  align-items: center;
+-  gap: 1rem;
+-  flex-wrap: wrap;
+-}
+-.topbar img { height: 30px; width: auto; }
+-.topbar nav { display: flex; gap: 1.1rem; flex-wrap: wrap; margin-left: auto; font-size: .92rem; }
++h1, h2, h3 { line-height: 1.25; letter-spacing: -.025em; text-wrap: balance; }
++h2 { font-size: var(--type-section); margin: 0 0 24px; }
++h3 { font-size: var(--type-subhead); margin: 32px 0 16px; }
++p, ul, ol { margin: 16px 0; }
++ul, ol { padding-left: 24px; }
++li { margin: 8px 0; }
++code, pre { font-family: "Cascadia Code", Consolas, monospace; font-size: var(--type-small); }
++code { background: var(--code-bg); border: 1px solid var(--line); border-radius: 4px; padding: 0 4px; }
++pre { background: var(--code-bg); border: 1px solid var(--line); border-radius: 16px; padding: 24px; overflow-x: auto; line-height: 1.5; margin: 24px 0; }
++pre code { background: none; border: 0; padding: 0; font-size: inherit; }
++.topbar { position: sticky; top: 0; z-index: 10; background: var(--ink); border-bottom: 1px solid var(--line); }
++.topbar-inner { max-width: var(--maxw); margin: auto; padding: 16px 24px; display: flex; align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap; }
++.topbar img { display: block; width: 176px; height: auto; }
++.topbar nav { display: flex; gap: 24px; flex-wrap: wrap; font-size: var(--type-small); }
+ .topbar nav a { color: var(--slate); text-decoration: none; }
+ .topbar nav a:hover { color: var(--teal); }
+-
+-main { max-width: var(--maxw); margin: 0 auto; padding: 0 1.5rem 4rem; }
+-
+-/* Hero */
+-.hero { text-align: center; padding: 3.4rem 0 1rem; }
+-.hero img.banner { width: 100%; max-width: 900px; border-radius: 14px; border: 1px solid var(--line); }
+-.hero h1 { font-size: 2.4rem; margin: 1.6rem 0 .4rem; }
+-.hero h1 .accent { color: var(--violet); }
+-.hero p.lead { font-size: 1.12rem; color: var(--slate); max-width: 46em; margin: 0 auto; }
+-.tag {
+-  display: inline-block; margin-top: 1.1rem;
+-  border: 1px solid var(--line); color: var(--amber);
+-  background: rgba(255, 184, 74, .08);
+-  padding: .25em .8em; border-radius: 999px; font-size: .84rem;
+-}
+-
+-/* Cards */
+-.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; margin: 1rem 0; }
+-.card {
+-  background: var(--ink-2);
+-  border: 1px solid var(--line);
+-  border-radius: 12px;
+-  padding: 1.1rem 1.2rem;
+-}
+-.card h3 { margin-top: 0; }
+-.card p { margin: .4rem 0; color: var(--slate); font-size: .94rem; }
+-.card .meta { font-size: .8rem; color: var(--slate); border-top: 1px solid var(--line); margin-top: .8rem; padding-top: .6rem; }
++main { max-width: var(--maxw); margin: auto; padding: 0 24px 80px; }
++main > section { padding: 64px 0; border-bottom: 1px solid var(--line); }
++.hero { text-align: center; padding: 80px 0 48px; }
++.eyebrow, .step { color: var(--teal); font-size: var(--type-small); font-weight: 600; letter-spacing: .08em; }
++.eyebrow { margin: 0 0 24px; }
++.hero h1 { font-size: var(--type-hero); line-height: 1.125; letter-spacing: -.045em; margin: 0 0 24px; }
++.accent { color: var(--teal); }
++.hero .lead { font-size: var(--type-subhead); line-height: 1.6; color: var(--slate); max-width: 640px; margin: auto; }
++.hero-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 16px; margin: 32px 0 16px; }
++.button { display: inline-flex; align-items: center; justify-content: center; gap: 16px; min-height: 48px; padding: 12px 24px; border-radius: 999px; text-decoration: none; font-size: var(--type-body); font-weight: 600; }
++.primary { color: var(--ink); background: var(--teal); }
++.secondary { color: var(--text); border: 1px solid var(--line); }
++.release-caption, .preview-label { font-size: var(--type-small); color: var(--slate); }
++.workflow { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); margin-top: 64px; border: 1px solid var(--line); border-radius: 24px; background: var(--ink-2); text-align: left; overflow: hidden; }
++.workflow > div { padding: 32px; }
++.workflow > div + div { border-left: 1px solid var(--line); }
++.workflow h3 { margin: 16px 0 8px; }
++.workflow p { margin: 0; color: var(--slate); }
++.preview-label { margin: 24px 0 0; }
++.grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 24px; margin: 24px 0 0; }
++.card { background: var(--ink-2); border: 1px solid var(--line); border-radius: 24px; padding: 32px; }
++.card h3 { margin: 0 0 16px; color: var(--text); }
++.card p { margin: 16px 0 0; color: var(--slate); }
++.card .meta { font-size: var(--type-small); border-top: 1px solid var(--line); margin-top: 24px; padding-top: 16px; }
+ .card .meta b { color: var(--text); }
+-
+-.small { font-size: .9rem; }
+-.note {
+-  background: rgba(255, 184, 74, .07);
+-  border-left: 3px solid var(--amber);
+-  padding: .8rem 1rem;
+-  border-radius: 0 10px 10px 0;
+-  margin: 1.2rem 0;
+-}
+-.note p { margin: .3rem 0; }
+-
+-table { border-collapse: collapse; width: 100%; margin: 1rem 0; font-size: .92rem; }
+-th, td { text-align: left; padding: .55rem .7rem; border: 1px solid var(--line); }
++.small { font-size: var(--type-small); }
++.note { background: rgba(255,184,74,.07); border-left: 4px solid var(--amber); padding: 16px 24px; border-radius: 0 16px 16px 0; margin: 24px 0; }
++.note p { margin: 8px 0; }
++table { border-collapse: collapse; width: 100%; margin: 24px 0; font-size: var(--type-body); }
++th, td { text-align: left; padding: 16px; border: 1px solid var(--line); }
+ th { background: var(--ink-2); color: var(--text); }
+ td { color: var(--slate); }
+ td b { color: var(--text); }
+-
+-footer {
+-  border-top: 1px solid var(--line);
+-  padding: 1.6rem 1.5rem;
+-  text-align: center;
+-  color: var(--slate);
+-  font-size: .86rem;
++footer { border-top: 1px solid var(--line); padding: 32px 24px; text-align: center; color: var(--slate); font-size: var(--type-small); }
++footer a { color: var(--slate); }
++@media (max-width: 767px) {
++  :root { --type-hero: 2.75rem; }
++  .topbar-inner { gap: 8px; padding: 8px 24px; }
++  .topbar nav { width: 100%; justify-content: space-between; gap: 8px; }
++  .hero { padding: 48px 0 32px; }
++  main > section:not(.hero) { padding: 48px 0; }
++  .desktop-break { display: none; }
++  .workflow, .grid { grid-template-columns: minmax(0,1fr); }
++  .workflow { margin-top: 40px; }
++  .workflow > div { padding: 24px; }
++  .workflow > div + div { border-left: 0; border-top: 1px solid var(--line); }
++  .card { padding: 24px; }
+ }
+-footer a { color: var(--slate); }
+\ No newline at end of file
+diff --git a/index.html b/index.html
+index 4f699ce..fb4dfde 100644
+--- a/index.html
++++ b/index.html
+@@ -3,7 +3,7 @@
+ <head>
+   <meta charset="utf-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+-  <title>LedgerParity — documentation</title>
++  <title>LedgerParity — clarity for every Stellar payment</title>
+   <meta name="description" content="LedgerParity documentation: read-only reconciliation of application payment records against ordinary classic Stellar payment operations.">
+   <link rel="icon" type="image/png" href="assets/favicon-32.png">
+   <link rel="stylesheet" href="assets/style.css">
+@@ -13,27 +13,31 @@
+ <header class="topbar">
+   <div class="topbar-inner">
+     <a href="#top"><img src="assets/lockup.png" alt="LedgerParity"></a>
+-    <nav aria-label="Sections">
++    <nav aria-label="Main navigation">
+       <a href="#overview">Overview</a>
+-      <a href="#repositories">Repositories</a>
+-      <a href="#concepts">Concepts</a>
+       <a href="#quickstart">Quick start</a>
+       <a href="#evidence">Evidence</a>
+-      <a href="#security">Security</a>
+-      <a href="#roadmap">Roadmap</a>
+-      <a href="#governance">Governance</a>
++      <a href="https://github.com/LedgerParity">GitHub ↗</a>
+     </nav>
+   </div>
+ </header>
+ 
+ <main id="top">
+-  <section class="hero">
+-    <img class="banner" src="assets/banner.png" alt="LedgerParity — your application ledger against the Stellar chain, brought to parity">
+-    <h1>Ledger<span class="accent">Parity</span></h1>
+-    <p class="lead">Read-only reconciliation for Stellar payment operators: bring your application payment
+-      ledger into parity with ordinary classic Stellar payment operations — exactly, reproducibly, without
+-      fabricating missing evidence.</p>
+-    <span class="tag">Developer preview — no adoption or production-readiness claim</span>
++  <section class="hero" aria-labelledby="hero-title">
++    <p class="eyebrow">STELLAR PAYMENT RECONCILIATION</p>
++    <h1 id="hero-title">Every payment.<br><span class="accent">A clearer picture.</span></h1>
++    <p class="lead">Compare your application ledger with Stellar payments.<br class="desktop-break"> Find discrepancies. Keep the evidence. Replay the result.</p>
++    <div class="hero-actions">
++      <a class="button primary" href="https://github.com/LedgerParity/ledger-parity-cli/releases/tag/v0.3.2-preview">Download the preview <span aria-hidden="true">↓</span></a>
++      <a class="button secondary" href="#quickstart">Explore the quick start <span aria-hidden="true">→</span></a>
++    </div>
++    <p class="release-caption">v0.3.2-preview · Windows, Linux &amp; macOS · MIT licensed</p>
++    <div class="workflow" aria-label="Reconciliation workflow">
++      <div><span class="step">01 / INPUT</span><h3>Your payment records</h3><p>Canonical JSON, CSV, or scoped SDP exports.</p></div>
++      <div><span class="step">02 / COMPARE</span><h3>Exact Stellar matching</h3><p>Identity, asset, amount, and settlement window.</p></div>
++      <div><span class="step">03 / UNDERSTAND</span><h3>A replayable report</h3><p>Matches, discrepancies, and unresolved evidence.</p></div>
++    </div>
++    <p class="preview-label">Developer preview · ordinary classic payments · read-only CLI</p>
+   </section>
+ 
+   <section id="overview">
