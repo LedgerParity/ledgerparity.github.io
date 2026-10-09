@@ -72,6 +72,20 @@ td { color: var(--slate); }
 td b { color: var(--text); }
 footer { border-top: 1px solid var(--line); padding: 32px 24px; text-align: center; color: var(--slate); font-size: var(--type-small); }
 footer a { color: var(--slate); }
+.preflight-hero { padding-top: 56px; }
+.preflight-hero h1 { font-size: var(--type-section); margin: 0 0 16px; }
+.preflight-hero .lead { font-size: var(--type-subhead); color: var(--slate); max-width: 72ch; }
+.field-label { display: block; font-weight: 600; margin: 24px 0 8px; }
+textarea { display: block; width: 100%; min-height: 320px; padding: 16px; resize: vertical; color: var(--text); background: var(--code-bg); border: 1px solid var(--slate); border-radius: 12px; font: 0.9rem/1.5 "Cascadia Code", Consolas, monospace; }
+textarea:focus-visible, button:focus-visible { outline: 2px solid var(--teal); outline-offset: 3px; }
+.preflight-actions { justify-content: flex-start; }
+button.button { cursor: pointer; font: inherit; }
+.result-success { color: var(--teal); font-weight: 700; }
+.result-error { color: #ffb4ab; font-weight: 700; }
+.record-results { padding-left: 28px; }
+.record-results li { padding: 10px 12px; margin: 8px 0; border-radius: 8px; overflow-wrap: anywhere; }
+.record-valid { color: var(--teal); background: rgba(63,224,196,.08); }
+.record-invalid { color: #ffb4ab; background: rgba(255,180,171,.08); }
 /* Reading, interaction, and responsive accessibility. */
 body { overflow-wrap: anywhere; }
 section, main { scroll-margin-top: 128px; }
