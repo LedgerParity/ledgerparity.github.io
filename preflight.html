@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Local payment JSON preflight — LedgerParity</title>
+  <meta name="description" content="Check a LedgerParity payment JSON export in your browser before using the read-only CLI.">
+  <link rel="icon" type="image/png" href="assets/favicon-32.png">
+  <link rel="stylesheet" href="assets/style.css">
+  <script type="module" src="assets/preflight-ui.mjs"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a href="index.html"><img src="assets/lockup.png" alt="LedgerParity home"></a>
+      <nav aria-label="Main navigation">
+        <a href="index.html#overview">Overview</a>
+        <a href="index.html#quickstart">Quick start</a>
+        <a href="preflight.html" aria-current="page">Local preflight</a>
+        <a href="https://github.com/LedgerParity">GitHub <span aria-hidden="true">↗</span></a>
+      </nav>
+    </div>
+  </header>
+  <main id="main" tabindex="-1">
+    <section class="preflight-hero" aria-labelledby="title">
+      <p class="eyebrow">BROWSER-ONLY FORMAT CHECK</p>
+      <h1 id="title">Check a payment export.</h1>
+      <p class="lead">Catch common JSON shape, identity, amount, and time errors before you run the LedgerParity CLI.</p>
+      <div class="note">
+        <p><b>Your data stays in this page.</b> The checker has no upload or network code. Do not paste real customer data into shared or recorded browser sessions. This preflight is an early format check; the CLI remains authoritative.</p>
+      </div>
+    </section>
+    <section aria-labelledby="input-title">
+      <h2 id="input-title">Payment JSON</h2>
+      <p>Paste one JSON array of canonical payment records. Amounts must be decimal strings; use <code>"[]"</code> for an empty export.</p>
+      <label class="field-label" for="payment-json">JSON export</label>
+      <textarea id="payment-json" spellcheck="false" autocomplete="off" autocapitalize="off" aria-describedby="input-help" placeholder='[{"id":"payment-1", ...}]'></textarea>
+      <p id="input-help" class="small">The input is limited to 256 KiB in this browser tool. Nothing is sent to a server.</p>
+      <div class="hero-actions preflight-actions">
+        <button class="button primary" id="check-json" type="button">Check JSON</button>
+        <button class="button secondary" id="load-sample" type="button">Load example</button>
+        <button class="button secondary" id="clear-json" type="button">Clear</button>
+      </div>
+    </section>
+    <section aria-labelledby="result-title">
+      <h2 id="result-title">Preflight result</h2>
+      <p id="result-summary" role="status" aria-live="polite">Paste an export and choose “Check JSON.”</p>
+      <ol id="record-results" class="record-results"></ol>
+    </section>
+    <section aria-labelledby="limits-title">
+      <h2 id="limits-title">What this check covers</h2>
+      <ul>
+        <li>Required payment fields, supported classic payment type, and known field names.</li>
+        <li>Positive decimal-string amounts with at most seven fractional digits and the signed int64 stroop limit.</li>
+        <li>Native XLM or complete classic credit-asset identity; contract tokens are rejected.</li>
+        <li>One valid timestamp or one ordered settlement interval.</li>
+      </ul>
+      <p>It does not fetch Stellar data, test whether a payment settled, compare records, establish export completeness, or produce evidence bundles. Continue with the <a href="index.html#quickstart">CLI quick start</a> for validation and reconciliation.</p>
+    </section>
+  </main>
+  <footer><p>LedgerParity · <a href="index.html">Documentation home</a> · <a href="https://github.com/LedgerParity">GitHub</a></p></footer>
+</body>
+</html>
