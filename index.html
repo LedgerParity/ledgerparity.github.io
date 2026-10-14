@@ -171,10 +171,10 @@ ledger-parity --replay evidence.json --out replayed.json
     <table>
       <thead><tr><th scope="col">Code</th><th scope="col">Meaning</th></tr></thead>
       <tbody>
-        <tr><td><b>0</b></td><td>Complete match — no discrepancies, no unknowns.</td></tr>
-        <tr><td><b>1</b></td><td>Runtime or configuration error — nothing produced.</td></tr>
-        <tr><td><b>2</b></td><td>Financial discrepancies found.</td></tr>
-        <tr><td><b>3</b></td><td>Unresolved evidence present (<code>UNKNOWN</code>s are never counted as discrepancies).</td></tr>
+        <tr><td><b>0</b></td><td>No discrepancies or unknowns; full parity achieved.</td></tr>
+        <tr><td><b>1</b></td><td>Execution error (configuration, validation, network, or file system failure).</td></tr>
+        <tr><td><b>2</b></td><td>Discrepancies without unknowns.</td></tr>
+        <tr><td><b>3</b></td><td>One or more unknowns, including mixed results.</td></tr>
       </tbody>
     </table>
 
